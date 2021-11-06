@@ -1,0 +1,9 @@
+{
+  "name": "web-app-template",
+  "version": "1.0.0",
+  "description": "Template para proyectos de frontend dentro de https://codealo.dev",
+  "repository": "https://github.com/Codealo-Dev/web-app-template.git",
+  "author": "Codealo <johnnie@codealo.dev>",
+  "license": "MIT",
+  "private": false
+}
