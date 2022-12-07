@@ -1,0 +1,113 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Calculador de Edad</title>
+
+	<link rel="stylesheet" href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js">
+</head>
+<body>
+	<div class="card col-xs-4 col-sm-4 col-md-6 col-lg-6">
+		<div class="card-header text-center">
+			<h1>Calculador de Edad</h1>
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="form-group col-xs-1 col-sm-2 col-md-3 col-lg-3">
+					<label for=""><b>Formato de Salida:</b></label>
+					<select class="form-control" name="formato" id="formato" required onchange="cambio()">
+						<option value="">Seleccione...</option>
+						<option value="completo">Años, Dias, Horas y Segundos</option>
+						<option value="año">Años</option>
+						<option value="dia">Dias</option>
+						<option value="hora">Horas</option>
+						<option value="minuto">Minutos</option>
+					</select>
+				</div>
+
+				<div class="form-group col-xs-1 col-sm-2 col-md-3 col-lg-3">
+					<label for=""><b>Fecha de Nacimiento:</b></label>
+					<input class="form-control" name="fecha_nacim" id="fecha_nacim" type="datetime-local" required disabled>
+				</div>
+
+				<div class="form-group col-xs-2 col-sm-4 col-md-6 col-lg-6">
+					<label for=""><b>Resultado:</b></label>
+					<input class="form-control" name="resultado" id="resultado" type="text" readonly>
+				</div>
+			</div>
+		</div>
+		<div class="card-footer text-center">
+			<button class="btn btn-success" onclick="calcular()">Calcular Edad</button>
+		</div>
+	</div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script>
+	function cambio() {
+		var formato = document.getElementById('formato').value;
+
+		if (formato === "") {
+			document.getElementById('fecha_nacim').disabled = true;
+		}
+		else {
+			document.getElementById('fecha_nacim').disabled = false;
+		}
+	}
+
+	function calcular() {
+		var fecha_nacim = document.getElementById('fecha_nacim').value;
+		var formato = document.getElementById('formato').value;
+
+		fecha_nacim = moment(fecha_nacim);
+		var time_nacim = moment(fecha_nacim);
+
+		const hoy = moment();
+
+		if (hoy < fecha_nacim) {
+			location.reload(alert('La Fecha de Nacimiento No Puede ser Mayor a la Actual'));
+		}
+		else {
+			switch (formato) {
+				case 'completo':
+					var resultado_año = hoy.diff(fecha_nacim,"y");
+					var resultado_dia = hoy.diff(fecha_nacim,"d");
+					var resultado_hora = hoy.diff(time_nacim,"h");
+					var resultado_segundo = hoy.diff(time_nacim,"s");
+					
+					document.getElementById('resultado').value = "A vivido: "+resultado_año+" año(s), "+resultado_dia+" dia(s), "+resultado_hora+" hora(s), "+resultado_segundo+" segundo(s), ";
+					break;
+
+				case 'año':
+					var resultado = hoy.diff(fecha_nacim,"y");
+					
+					document.getElementById('resultado').value = "A vivido: "+resultado+" año(s)";
+					break;
+
+				case 'dia':
+					var resultado = hoy.diff(fecha_nacim,"d");
+					
+					document.getElementById('resultado').value = "A vivido: "+resultado+" dia(s)";
+					break;
+
+				case 'hora':
+					var resultado = hoy.diff(time_nacim,"h");
+					
+					document.getElementById('resultado').value = "A vivido: "+resultado+" hora(s)";
+					break;
+
+				case 'minuto':
+					var resultado = hoy.diff(time_nacim,"m");
+					
+					document.getElementById('resultado').value = "A vivido: "+resultado+" minuto(s)";
+					break;
+
+				default:
+					alert("Escoja un Formato para poder Calcular la Edad");
+					break;
+			}
+		}
+	}
+</script>
+</html>
